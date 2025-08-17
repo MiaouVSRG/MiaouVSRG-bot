@@ -24,7 +24,7 @@ async def miaou(ctx):
     description="gay"
 )
 async def gay(ctx: commands.Context, user:discord.User):
-    await ctx.send(f"{user.mention if user is not None else "@<1331679752221622345>"} is gay")
+    await ctx.send(f"{user.mention if user is not None else '@<1331679752221622345>'} is gay")
 
 
 bot.run(DISCORD_BOT_TOKEN)
