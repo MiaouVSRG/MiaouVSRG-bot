@@ -1,7 +1,11 @@
+import random
+
 from globals import *
 
 from discord.ext import tasks
 from discord.utils import get
+
+import datetime
 
 import requests
 
@@ -17,7 +21,8 @@ async def on_ready():
             name="Miaou" # TODO "Miaou | # of online members"
         )
     )
-    await check_server_status.start()
+    random_gay_ping.start()
+    check_server_status.start()
     await bot.tree.sync()
 
 @bot.hybrid_command(
@@ -67,6 +72,17 @@ async def check_server_status():
     elif IS_WEBSITE_OK and not website_check_status_code:
         await bot.get_channel(1441836903140954253).edit(name="Website : DOWN")
         await bot.get_channel(1425933813950976229).send(f"{server_ping_role.mention} Website is down. Skill issue, they say.")
+    return
+
+@tasks.loop(time=datetime.time(hour=10))
+async def random_gay_ping():
+    members = bot.guilds[0].members
+
+    random_member = random.choice(members)
+    while random_member.global_name.casefold() == "percyqaz".casefold():
+        random_member = random.choice(members)
+
+    await bot.get_channel(1359150025988640981).send(f"{random_member.mention} is today's gay cat")
     return
 
 
