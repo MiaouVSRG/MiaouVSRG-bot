@@ -1,5 +1,13 @@
 from globals import *
 
+from discord.ext import tasks
+from discord.utils import get
+
+import requests
+
+IS_SERVER_OK = True
+IS_WEBSITE_OK = True
+
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user} (ID: {bot.user.id})")
@@ -9,7 +17,7 @@ async def on_ready():
             name="Miaou" # TODO "Miaou | # of online members"
         )
     )
-
+    await check_server_status.start()
     await bot.tree.sync()
 
 @bot.hybrid_command(
@@ -25,6 +33,41 @@ async def miaou(ctx):
 )
 async def gay(ctx: commands.Context, user:discord.User):
     await ctx.send(f"{user.mention if user is not None else '@<1331679752221622345>'} is gay")
+
+def get_url_status_code(url: str):
+    try:
+        rep = requests.get(url)
+        return rep.status_code
+    except Exception:
+        return None
+
+@tasks.loop(minutes=1)
+async def check_server_status():
+    global IS_SERVER_OK
+    global IS_WEBSITE_OK
+
+    health_check_status_code = get_url_status_code("https://api.miaouvsrg.com/health")
+    website_check_status_code = get_url_status_code("https://www.miaouvsrg.com")
+
+    # Because the bot will only run on the MiaouVSRG server, and not on other ones, we know that the first guild is the MiaouVSRG server
+    server_ping_role = get(bot.guilds[0].roles, name="server ping")
+
+    if health_check_status_code == 200:
+        await bot.get_channel(1441836398494617701).edit(name="Game server : UP")
+        if not IS_SERVER_OK:
+            await bot.get_channel(1425933813950976229).send(f"{server_ping_role.mention} Game server is now up !")
+    elif IS_SERVER_OK and not health_check_status_code:
+        await bot.get_channel(1441836398494617701).edit(name="Game server : DOWN")
+        await bot.get_channel(1425933813950976229).send(f"{server_ping_role.mention} Game server is down. Skill issue, they say.")
+
+    if website_check_status_code == 200:
+        await bot.get_channel(1441836903140954253).edit(name="Website : UP")
+        if not IS_WEBSITE_OK:
+            await bot.get_channel(1425933813950976229).send(f"{server_ping_role.mention} Website is now up !")
+    elif IS_WEBSITE_OK and not website_check_status_code:
+        await bot.get_channel(1441836903140954253).edit(name="Website : DOWN")
+        await bot.get_channel(1425933813950976229).send(f"{server_ping_role.mention} Website is down. Skill issue, they say.")
+    return
 
 
 bot.run(DISCORD_BOT_TOKEN)
