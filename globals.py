@@ -13,6 +13,17 @@ load_dotenv()
 
 DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 DISCORD_GUILD_ID = os.getenv('DISCORD_GUILD_ID')
+DISCORD_WELCOME_CHANNEL_ID = os.getenv('DISCORD_WELCOME_CHANNEL_ID')
+MEMBER_ROLE_ID = os.getenv('MEMBER_ROLE_ID')
+
+ALLOWED_WELCOME_MESSAGES = [
+    "hi",
+    "hii",
+    "hiii",
+    "hai",
+    "haii",
+    "haiii"
+]
 
 # Intents
 _intents = discord.Intents.all()
