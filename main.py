@@ -25,7 +25,22 @@ async def on_ready():
         )
     )
     await bot.tree.sync()
+    await change_status()
 
+
+async def change_status():
+    guild = bot.get_guild(int(DISCORD_GUILD_ID))
+
+    if guild is None:
+        return
+
+    member_count = guild.member_count
+    await bot.change_presence(
+        status=discord.Status.online,
+        activity=discord.CustomActivity(
+            name=f"Miaou | {member_count} members"  # TODO "Miaou | # of online members"
+        )
+    )
 
 @bot.event
 async def on_member_join(member: discord.Member):
@@ -39,6 +54,72 @@ async def on_member_join(member: discord.Member):
 
     if channel is not None:
         await channel.send(f"Welcome to Ctrl+Meow Studios {member.mention} ! **Please say 'hi' to get the member role (bot verification)**")
+
+    await change_status()
+
+
+@bot.event
+async def on_raw_reaction_add(payload: discord.RawReactionActionEvent):
+    await change_status()
+    if payload.user_id == bot.user.id:
+        return
+
+    if payload.message_id == int(DISCORD_ROLE_MESSAGE_ID):
+
+        guild = bot.get_guild(payload.guild_id)
+        if guild is None:
+            return
+
+        if payload.member is None:
+            return
+
+        SNEAK_PEAK_ROLE_ID = 1560787700922191924
+        SNEAK_PEAK_REACTION = "👀"
+
+        STATUS_PING_ROLE_ID = 1435294325553500190
+        STATUS_PING_REACTION = "💥"
+
+        if payload.emoji.name == SNEAK_PEAK_REACTION:
+            role = guild.get_role(SNEAK_PEAK_ROLE_ID)
+            if role:
+                await payload.member.add_roles(role)
+
+        if payload.emoji.name == STATUS_PING_REACTION:
+            role = guild.get_role(STATUS_PING_ROLE_ID)
+            if role:
+                await payload.member.add_roles(role)
+
+
+@bot.event
+async def on_raw_reaction_remove(payload: discord.RawReactionActionEvent):
+    if payload.user_id == bot.user.id:
+        return
+
+    if payload.message_id == int(DISCORD_ROLE_MESSAGE_ID):
+
+        guild = bot.get_guild(payload.guild_id)
+        if guild is None:
+            return
+
+        member = guild.get_member(payload.user_id)
+        if member is None:
+            return
+
+        SNEAK_PEAK_ROLE_ID = 1560787700922191924
+        SNEAK_PEAK_REACTION = "👀"
+
+        STATUS_PING_ROLE_ID = 1435294325553500190
+        STATUS_PING_REACTION = "💥"
+
+        if payload.emoji.name == SNEAK_PEAK_REACTION:
+            role = guild.get_role(SNEAK_PEAK_ROLE_ID)
+            if role:
+                await member.remove_roles(role)
+
+        if payload.emoji.name == STATUS_PING_REACTION:
+            role = guild.get_role(STATUS_PING_ROLE_ID)
+            if role:
+                await member.remove_roles(role)
 
 
 @bot.event
@@ -57,6 +138,8 @@ async def on_message(message: discord.Message):
             role = discord.utils.get(roles, id=int(MEMBER_ROLE_ID))
 
         author = message.author
+        if author is None:
+            return
 
         if role:
             await message.delete()
