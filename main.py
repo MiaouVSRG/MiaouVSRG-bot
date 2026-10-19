@@ -148,6 +148,24 @@ async def on_message(message: discord.Message):
                 await author.add_roles(role)
             await send_welcome_message(author)
 
+    if "<@1358886070108029068>" in message.content:
+        RANDOM_EMOTES = [
+            "<:chewinggumstare:1543226533458616440>",
+            "<:crevette:1542568392790376639>",
+            "<:crevetteaerodynamic:1542570374586306660>",
+            "<:crevettestare:1542573325908181092>",
+            "<:goobert:1542561406287745124>",
+            "<:horus:1542569595133493338>",
+            "<:horusstare:1542570114128412673>",
+            "<:hubertgamerpro:1542570250737029240>",
+            "<:hubertstare:1542573603885813830>",
+            "<:luffysmug:1542569809949106317>",
+            "<:tetecoussin:1542569344033095680>",
+            "<:wth:1554639064064335963>"
+        ]
+        emote = r.choice(RANDOM_EMOTES)
+        await message.channel.send(emote)
+
     await bot.process_commands(message)
 
 
