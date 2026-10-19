@@ -1,4 +1,5 @@
 from globals import *
+import random as r
 
 
 def has_allowed_role():
@@ -145,8 +146,38 @@ async def on_message(message: discord.Message):
             await message.delete()
             if role not in author.roles:
                 await author.add_roles(role)
+            await send_welcome_message(author)
 
     await bot.process_commands(message)
+
+
+async def send_welcome_message(author: discord.Member):
+    RANDOM_EMOTES = [
+        "<:chewinggumstare:1543226533458616440>",
+        "<:crevette:1542568392790376639>",
+        "<:crevetteaerodynamic:1542570374586306660>",
+        "<:crevettestare:1542573325908181092>",
+        "<:goobert:1542561406287745124>",
+        "<:horus:1542569595133493338>",
+        "<:horusstare:1542570114128412673>",
+        "<:hubertgamerpro:1542570250737029240>",
+        "<:hubertstare:1542573603885813830>",
+        "<:luffysmug:1542569809949106317>",
+        "<:tetecoussin:1542569344033095680>",
+        "<:wth:1554639064064335963>"
+    ]
+    emote = r.choice(RANDOM_EMOTES)
+    channel = bot.get_channel(DISCORD_GENERAL_CHANNEL_ID)
+    if not channel:
+        try:
+            channel = await bot.fetch_channel(DISCORD_GENERAL_CHANNEL_ID)
+        except discord.HTTPException:
+            channel = None
+
+    if channel:
+        await channel.send(f"Welcome {author.mention} !\n"
+                       f"The game is currently in active development, and will soon have a playtest : https://discord.com/channels/1359150025363554497/1359151600052207757/1555536674883371039\n"
+                       f"Do not hesitate to get your roles in <#1560779411010228224> ! {emote} ")
 
 
 @bot.hybrid_command(
