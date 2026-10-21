@@ -210,6 +210,16 @@ async def test_member_join(ctx, member: discord.Member):
 
 
 @bot.hybrid_command(
+    name="playtest",
+    description="Please read peep's welcome message"
+)
+@has_allowed_role()
+async def playtest(ctx):
+    await ctx.defer(ephemeral=False)
+    await ctx.send("hi, we will release playtest applications when the game will be polished enough. Please check https://discord.com/channels/1359150025363554497/1359151600052207757/1555536674883371039")
+
+
+@bot.hybrid_command(
     name="miaou",
     description="Miaou (ping test)"
 )
