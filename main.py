@@ -58,7 +58,7 @@ async def on_member_join(member: discord.Member):
 
     if channel is not None:
         async with channel.typing():
-            await asyncio.sleep(1)
+            await asyncio.sleep(2)
         await channel.send(f"Welcome to Ctrl+Meow Studios {member.mention} ! **Please say 'hi' to get the member role (bot verification)**")
 
     await change_status()
@@ -136,7 +136,7 @@ async def on_message(message: discord.Message):
     if message.guild is None:
         return
 
-    if message.channel.id == int(DISCORD_WELCOME_CHANNEL_ID) and message.content in ALLOWED_WELCOME_MESSAGES:
+    if message.channel.id == int(DISCORD_WELCOME_CHANNEL_ID) and message.content.lower() in ALLOWED_WELCOME_MESSAGES:
         role = message.guild.get_role(MEMBER_ROLE_ID)
 
         if not role:
