@@ -154,42 +154,88 @@ async def on_message(message: discord.Message):
             await send_welcome_message(author)
 
     if "<@1358886070108029068>" in message.content:
-        RANDOM_EMOTES = [
-            "<:chewinggumstare:1543226533458616440>",
-            "<:crevette:1542568392790376639>",
-            "<:crevetteaerodynamic:1542570374586306660>",
-            "<:crevettestare:1542573325908181092>",
-            "<:goobert:1542561406287745124>",
-            "<:horus:1542569595133493338>",
-            "<:horusstare:1542570114128412673>",
-            "<:hubertgamerpro:1542570250737029240>",
-            "<:hubertstare:1542573603885813830>",
-            "<:luffysmug:1542569809949106317>",
-            "<:tetecoussin:1542569344033095680>",
-            "<:wth:1554639064064335963>"
-        ]
-        emote = r.choice(RANDOM_EMOTES)
+        RANDOM_EMOTES = {
+            "<:chewinggumstare:1543226533458616440>":4.18,
+            "<:crevette:1542568392790376639>":3.5,
+            "<:crevetteaerodynamic:1542570374586306660>":3.5,
+            "<:crevettestare:1542573325908181092>":3.5,
+            "<:goobert:1542561406287745124>":4.18,
+            "<:horus:1542569595133493338>":4.18,
+            "<:horusstare:1542570114128412673>":4.18,
+            "<:hubertgamerpro:1542570250737029240>":4.18,
+            "<:hubertstare:1542573603885813830>":4.18,
+            "<:luffysmug:1542569809949106317>":4.18,
+            "<:tetecoussin:1542569344033095680>":3.5,
+            "<:wth:1554639064064335963>":0.5,
+            "<:moccha:1572669707625168896>":4.18,
+            "<:bliksem:1572669756606259256>":4.18,
+            "<:angryhorus:1566059318770540604>":4.18,
+            "<:bruhhorus:1566888888948232312>":4.18,
+            "<:copycatphat:1570655712949043381>":4.18,
+            "<:crevettehunt:1568060055968948265>":3.5,
+            "<:crevettelaugh:1568060785698021496>":3.5,
+            "<:crevettephone:1568060621516443749>":3.5,
+            "<:crevettesleepy:1568060977075851304>":3.5,
+            "<:crevettesmile:1568059988662947951>":3.5,
+            "<:goofypopo:1572670753076412546>":4.18,
+            "<:loading:1566887589930074254>":4.18,
+            "<:lucifer:1572669640642007121>":4.18,
+            "<a:o2mo:1570658748979216445>":0.5,
+            "<:boboxcat:1570657005524488232>":0.5,
+            "<:wollekeZzz:1572669795122413578>":4.18,
+            "<:what:1570656541030228088>":0.5
+        }
+
+        emotes=list(RANDOM_EMOTES.keys())
+        probabilities=list(RANDOM_EMOTES.values())
+
+
+
+
+        emote = r.choices(emotes, weights=probabilities, k=1)[0]
         await message.channel.send(emote)
 
     await bot.process_commands(message)
 
 
 async def send_welcome_message(author: discord.Member):
-    RANDOM_EMOTES = [
-        "<:chewinggumstare:1543226533458616440>",
-        "<:crevette:1542568392790376639>",
-        "<:crevetteaerodynamic:1542570374586306660>",
-        "<:crevettestare:1542573325908181092>",
-        "<:goobert:1542561406287745124>",
-        "<:horus:1542569595133493338>",
-        "<:horusstare:1542570114128412673>",
-        "<:hubertgamerpro:1542570250737029240>",
-        "<:hubertstare:1542573603885813830>",
-        "<:luffysmug:1542569809949106317>",
-        "<:tetecoussin:1542569344033095680>",
-        "<:wth:1554639064064335963>"
-    ]
-    emote = r.choice(RANDOM_EMOTES)
+    RANDOM_EMOTES = {
+            "<:chewinggumstare:1543226533458616440>":4.18,
+            "<:crevette:1542568392790376639>":3.5,
+            "<:crevetteaerodynamic:1542570374586306660>":3.5,
+            "<:crevettestare:1542573325908181092>":3.5,
+            "<:goobert:1542561406287745124>":4.18,
+            "<:horus:1542569595133493338>":4.18,
+            "<:horusstare:1542570114128412673>":4.18,
+            "<:hubertgamerpro:1542570250737029240>":4.18,
+            "<:hubertstare:1542573603885813830>":4.18,
+            "<:luffysmug:1542569809949106317>":4.18,
+            "<:tetecoussin:1542569344033095680>":3.5,
+            "<:wth:1554639064064335963>":0.5,
+            "<:moccha:1572669707625168896>":4.18,
+            "<:bliksem:1572669756606259256>":4.18,
+            "<:angryhorus:1566059318770540604>":4.18,
+            "<:bruhhorus:1566888888948232312>":4.18,
+            "<:copycatphat:1570655712949043381>":4.18,
+            "<:crevettehunt:1568060055968948265>":3.5,
+            "<:crevettelaugh:1568060785698021496>":3.5,
+            "<:crevettephone:1568060621516443749>":3.5,
+            "<:crevettesleepy:1568060977075851304>":3.5,
+            "<:crevettesmile:1568059988662947951>":3.5,
+            "<:goofypopo:1572670753076412546>":4.18,
+            "<:loading:1566887589930074254>":4.18,
+            "<:lucifer:1572669640642007121>":4.18,
+            "<a:o2mo:1570658748979216445>":0.5,
+            "<:boboxcat:1570657005524488232>":0.5,
+            "<:wollekeZzz:1572669795122413578>":4.18,
+            "<:what:1570656541030228088>":0.5
+        }
+
+    emotes = list(RANDOM_EMOTES.keys())
+    probabilities = list(RANDOM_EMOTES.values())
+
+    emote = r.choices(emotes, weights=probabilities, k=1)[0]
+
     channel = bot.get_channel(DISCORD_GENERAL_CHANNEL_ID)
     if not channel:
         try:
